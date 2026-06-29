@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import "./App.css";
 
 function App() {
-  // 🔐 로그인 상태 (로컬 저장 연동)
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const [codename, setCodename] = useState("");
@@ -14,9 +13,11 @@ function App() {
 
   const [draftOpen, setDraftOpen] = useState(false);
   const [selectedDoc, setSelectedDoc] = useState(null);
-  const [status, setStatus] = useState("작성중");
 
+  const [status, setStatus] = useState("작성중");
   const [draftList, setDraftList] = useState([]);
+
+  const [calls, setCalls] = useState([]);
 
   // 🔐 유저 DB
   const users = [
@@ -38,17 +39,16 @@ function App() {
     { title: "바로가기", items: ["부장 호출", "사장 호출"] }
   ];
 
-  // 🔁 로그인 유지 (localStorage)
+  // 🔐 로그인
   useEffect(() => {
-    const savedUser = localStorage.getItem("user");
-    if (savedUser) {
-      const parsed = JSON.parse(savedUser);
+    const saved = localStorage.getItem("user");
+    if (saved) {
+      const parsed = JSON.parse(saved);
       setUser(parsed);
       setIsLoggedIn(true);
     }
   }, []);
 
-  // 🔐 로그인
   const login = () => {
     const found = users.find(
       (u) => u.codename === codename && u.pw === pw
@@ -64,17 +64,52 @@ function App() {
     localStorage.setItem("user", JSON.stringify(found));
   };
 
-  // 🚪 로그아웃
   const logout = () => {
     setIsLoggedIn(false);
     setUser(null);
     localStorage.removeItem("user");
   };
 
+  // 📞 호출 시스템
+  const callPerson = (target) => {
+    const newCall = {
+      id: Date.now(),
+      target,
+      from: user.codename,
+      time: new Date().toLocaleTimeString()
+    };
+
+    setCalls([newCall, ...calls]);
+    alert(`${target} 호출됨`);
+  };
+
   const handleClick = (item) => {
     if (item === "전자결재") {
       setPage("전자결재");
       setMenuOpen(false);
+      return;
+    }
+
+    // 📞 부장 호출 (선택)
+    if (item === "부장 호출") {
+      const choice = prompt("부장 선택: 시드 / 에스");
+
+      if (choice === "시드" || choice === "에스") {
+        callPerson(choice);
+      } else {
+        alert("잘못된 선택");
+      }
+      return;
+    }
+
+    // 📞 사장 호출 (권한)
+    if (item === "사장 호출") {
+      if (user.role !== "사장") {
+        alert("권한 없음");
+        return;
+      }
+
+      callPerson("루멘");
       return;
     }
 
@@ -88,7 +123,6 @@ function App() {
     setStatus("작성중");
   };
 
-  // 📄 기안 제출 → 결재함 저장
   const submitDraft = () => {
     const newDraft = {
       id: Date.now(),
@@ -142,7 +176,6 @@ function App() {
     );
   }
 
-  // 🏠 메인
   return (
     <div className="app">
 
@@ -150,11 +183,10 @@ function App() {
         <div className="logo">REMANERE</div>
 
         <div>
-          <span style={{ marginRight: "10px" }}>
-            {user.codename} ({user.role})
-          </span>
-
-          <button onClick={logout}>로그아웃</button>
+          {user.codename} ({user.role})
+          <button onClick={logout} style={{ marginLeft: 10 }}>
+            로그아웃
+          </button>
         </div>
 
         <div className="menu-btn" onClick={() => setMenuOpen(!menuOpen)}>
@@ -182,7 +214,7 @@ function App() {
       <main className="main">
         <h1>{page}</h1>
 
-        {/* 전자결재 */}
+        {/* 📄 전자결재 */}
         {page === "전자결재" && (
           <div>
 
@@ -192,7 +224,7 @@ function App() {
 
             {draftOpen && (
               <div className="draft-box">
-                {["연차", "출장", "구매"].map((d) => (
+                {["연차 사용 신청서", "출장 신청서", "물품 구매 신청서", "보고 제출"].map((d) => (
                   <div key={d} onClick={() => openDoc(d)}>
                     {d}
                   </div>
@@ -203,13 +235,11 @@ function App() {
             {selectedDoc && (
               <div className="form-box">
                 <h3>{selectedDoc} 신청서</h3>
-
                 <button onClick={submitDraft}>제출</button>
               </div>
             )}
 
-            {/* 📄 결재함 */}
-            <h3 style={{ marginTop: "30px" }}>📄 결재함</h3>
+            <h3>📄 결재함</h3>
 
             {draftList.map((d) => (
               <div key={d.id} className="draft-box">
@@ -226,6 +256,17 @@ function App() {
             ))}
           </div>
         )}
+
+        {/* 📞 호출 로그 */}
+        <h3>📞 호출 기록</h3>
+
+        {calls.map((c) => (
+          <div key={c.id} className="draft-box">
+            <p>{c.target} 호출됨</p>
+            <p>from: {c.from}</p>
+            <p>time: {c.time}</p>
+          </div>
+        ))}
       </main>
 
     </div>
