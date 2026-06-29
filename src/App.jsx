@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./App.css";
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [page, setPage] = useState("홈");
 
@@ -15,7 +16,6 @@ function App() {
   ];
 
   const handleClick = (item) => {
-    // 권한 체크
     if (item === "사장 호출" && userRole !== "사장") {
       alert("접근 권한이 없습니다.");
       return;
@@ -32,6 +32,26 @@ function App() {
     setMenuOpen(false);
   };
 
+  // 🚨 로그인 화면
+  if (!isLoggedIn) {
+    return (
+      <div className="login-page">
+        <div className="login-box">
+          <h1>REMANERE</h1>
+          <p>GROUPWARE</p>
+
+          <input type="text" placeholder="코드네임" />
+          <input type="password" placeholder="비밀번호" />
+
+          <button onClick={() => setIsLoggedIn(true)}>
+            로그인
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // 🚀 메인 화면
   return (
     <div className="app">
 
