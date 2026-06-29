@@ -1,0 +1,42 @@
+*body {
+  margin: 0;
+  font-family: Arial;
+}
+
+.app {
+  height: 100vh;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: #1d3557;
+  color: white;
+}
+
+/* MENU BUTTON */
+.menu-btn {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  width: 260px;
+  height: calc(100vh - 60px);
+  background: #f1f1f1;
+  padding: 15px;
+  overflow-y: auto;
+}
+
+/* MAIN */
+.main {
+  margin-left: 270px;
+  padding: 20px;
+}
