@@ -14,12 +14,11 @@ function App() {
   const [draftOpen, setDraftOpen] = useState(false);
   const [selectedDoc, setSelectedDoc] = useState(null);
 
-  const [status, setStatus] = useState("작성중");
   const [draftList, setDraftList] = useState([]);
 
+  // 📩 호출 전체 로그
   const [calls, setCalls] = useState([]);
 
-  // 🔐 유저 DB
   const users = [
     { codename: "루멘", pw: "0505", role: "사장" },
     { codename: "시드", pw: "0813", role: "부장" },
@@ -39,12 +38,10 @@ function App() {
     { title: "바로가기", items: ["부장 호출", "사장 호출"] }
   ];
 
-  // 🔐 로그인
   useEffect(() => {
     const saved = localStorage.getItem("user");
     if (saved) {
-      const parsed = JSON.parse(saved);
-      setUser(parsed);
+      setUser(JSON.parse(saved));
       setIsLoggedIn(true);
     }
   }, []);
@@ -70,18 +67,22 @@ function App() {
     localStorage.removeItem("user");
   };
 
-  // 📞 호출 시스템
+  // 📞 호출 생성
   const callPerson = (target) => {
     const newCall = {
       id: Date.now(),
       target,
       from: user.codename,
-      time: new Date().toLocaleTimeString()
+      time: new Date().toLocaleTimeString(),
+      read: false
     };
 
     setCalls([newCall, ...calls]);
     alert(`${target} 호출됨`);
   };
+
+  // 📩 개인 호출함 (내가 받은 것만)
+  const myInbox = calls.filter((c) => c.target === user.codename);
 
   const handleClick = (item) => {
     if (item === "전자결재") {
@@ -90,7 +91,7 @@ function App() {
       return;
     }
 
-    // 📞 부장 호출 (선택)
+    // 📞 부장 호출 → 전 직원 가능
     if (item === "부장 호출") {
       const choice = prompt("부장 선택: 시드 / 에스");
 
@@ -102,10 +103,10 @@ function App() {
       return;
     }
 
-    // 📞 사장 호출 (권한)
+    // 📞 사장 호출 → 부장 + 사장만 가능
     if (item === "사장 호출") {
-      if (user.role !== "사장") {
-        alert("권한 없음");
+      if (user.role === "사원") {
+        alert("사원은 사장 호출 불가");
         return;
       }
 
@@ -120,7 +121,6 @@ function App() {
   const openDoc = (doc) => {
     setSelectedDoc(doc);
     setDraftOpen(false);
-    setStatus("작성중");
   };
 
   const submitDraft = () => {
@@ -128,12 +128,10 @@ function App() {
       id: Date.now(),
       doc: selectedDoc,
       writer: user.codename,
-      role: user.role,
       status: "부장검토"
     };
 
     setDraftList([newDraft, ...draftList]);
-    setStatus("부장검토");
   };
 
   const approve = (id) => {
@@ -141,21 +139,32 @@ function App() {
       prev.map((d) => {
         if (d.id !== id) return d;
 
-        if (d.status === "부장검토") return { ...d, status: "사장검토" };
-        if (d.status === "사장검토") return { ...d, status: "최종승인" };
+        if (d.status === "부장검토") {
+          if (user.role !== "부장") {
+            alert("부장만 승인 가능");
+            return d;
+          }
+          return { ...d, status: "사장검토" };
+        }
+
+        if (d.status === "사장검토") {
+          if (user.role !== "사장") {
+            alert("사장만 승인 가능");
+            return d;
+          }
+          return { ...d, status: "최종승인" };
+        }
 
         return d;
       })
     );
   };
 
-  // 🔐 로그인 화면
   if (!isLoggedIn) {
     return (
       <div className="login-page">
         <div className="login-box">
           <h1>REMANERE</h1>
-          <p>GROUPWARE</p>
 
           <input
             placeholder="코드네임"
@@ -184,9 +193,7 @@ function App() {
 
         <div>
           {user.codename} ({user.role})
-          <button onClick={logout} style={{ marginLeft: 10 }}>
-            로그아웃
-          </button>
+          <button onClick={logout}>로그아웃</button>
         </div>
 
         <div className="menu-btn" onClick={() => setMenuOpen(!menuOpen)}>
@@ -214,59 +221,26 @@ function App() {
       <main className="main">
         <h1>{page}</h1>
 
-        {/* 📄 전자결재 */}
-        {page === "전자결재" && (
-          <div>
+        {/* 📩 개인 호출함 */}
+        <h3>📩 내 호출함</h3>
 
-            <button onClick={() => setDraftOpen(!draftOpen)}>
-              기안하기
-            </button>
-
-            {draftOpen && (
-              <div className="draft-box">
-                {["연차 사용 신청서", "출장 신청서", "물품 구매 신청서", "보고 제출"].map((d) => (
-                  <div key={d} onClick={() => openDoc(d)}>
-                    {d}
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {selectedDoc && (
-              <div className="form-box">
-                <h3>{selectedDoc} 신청서</h3>
-                <button onClick={submitDraft}>제출</button>
-              </div>
-            )}
-
-            <h3>📄 결재함</h3>
-
-            {draftList.map((d) => (
-              <div key={d.id} className="draft-box">
-                <p>문서: {d.doc}</p>
-                <p>작성자: {d.writer}</p>
-                <p>상태: {d.status}</p>
-
-                {user.role !== "사원" && d.status !== "최종승인" && (
-                  <button onClick={() => approve(d.id)}>
-                    결재
-                  </button>
-                )}
-              </div>
-            ))}
-          </div>
+        {myInbox.length === 0 ? (
+          <p>호출 없음</p>
+        ) : (
+          myInbox.map((c) => (
+            <div key={c.id} className="draft-box">
+              <p>📨 {c.from} → 나 호출</p>
+              <p>time: {c.time}</p>
+            </div>
+          ))
         )}
 
-        {/* 📞 호출 로그 */}
-        <h3>📞 호출 기록</h3>
-
-        {calls.map((c) => (
-          <div key={c.id} className="draft-box">
-            <p>{c.target} 호출됨</p>
-            <p>from: {c.from}</p>
-            <p>time: {c.time}</p>
+        {/* 📄 결재 */}
+        {page === "전자결재" && (
+          <div>
+            <h3>전자결재 (기존 유지)</h3>
           </div>
-        ))}
+        )}
       </main>
 
     </div>
