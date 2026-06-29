@@ -11,12 +11,12 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [page, setPage] = useState("홈");
 
+  // 📄 전자결재
   const [draftOpen, setDraftOpen] = useState(false);
   const [selectedDoc, setSelectedDoc] = useState(null);
-
   const [draftList, setDraftList] = useState([]);
 
-  // 📩 호출 전체 로그
+  // 📩 호출
   const [calls, setCalls] = useState([]);
 
   const users = [
@@ -67,22 +67,18 @@ function App() {
     localStorage.removeItem("user");
   };
 
-  // 📞 호출 생성
+  // 📞 호출
   const callPerson = (target) => {
     const newCall = {
       id: Date.now(),
       target,
       from: user.codename,
-      time: new Date().toLocaleTimeString(),
-      read: false
+      time: new Date().toLocaleTimeString()
     };
 
     setCalls([newCall, ...calls]);
     alert(`${target} 호출됨`);
   };
-
-  // 📩 개인 호출함 (내가 받은 것만)
-  const myInbox = calls.filter((c) => c.target === user.codename);
 
   const handleClick = (item) => {
     if (item === "전자결재") {
@@ -91,25 +87,22 @@ function App() {
       return;
     }
 
-    // 📞 부장 호출 → 전 직원 가능
+    // 📞 부장 호출 (전직원 가능)
     if (item === "부장 호출") {
       const choice = prompt("부장 선택: 시드 / 에스");
 
       if (choice === "시드" || choice === "에스") {
         callPerson(choice);
-      } else {
-        alert("잘못된 선택");
       }
       return;
     }
 
-    // 📞 사장 호출 → 부장 + 사장만 가능
+    // 📞 사장 호출 (부장 + 사장만)
     if (item === "사장 호출") {
       if (user.role === "사원") {
         alert("사원은 사장 호출 불가");
         return;
       }
-
       callPerson("루멘");
       return;
     }
@@ -118,6 +111,7 @@ function App() {
     setMenuOpen(false);
   };
 
+  // 📄 기안
   const openDoc = (doc) => {
     setSelectedDoc(doc);
     setDraftOpen(false);
@@ -140,18 +134,12 @@ function App() {
         if (d.id !== id) return d;
 
         if (d.status === "부장검토") {
-          if (user.role !== "부장") {
-            alert("부장만 승인 가능");
-            return d;
-          }
+          if (user.role !== "부장") return d;
           return { ...d, status: "사장검토" };
         }
 
         if (d.status === "사장검토") {
-          if (user.role !== "사장") {
-            alert("사장만 승인 가능");
-            return d;
-          }
+          if (user.role !== "사장") return d;
           return { ...d, status: "최종승인" };
         }
 
@@ -160,6 +148,7 @@ function App() {
     );
   };
 
+  // 🔐 로그인 화면
   if (!isLoggedIn) {
     return (
       <div className="login-page">
@@ -221,26 +210,65 @@ function App() {
       <main className="main">
         <h1>{page}</h1>
 
-        {/* 📩 개인 호출함 */}
-        <h3>📩 내 호출함</h3>
-
-        {myInbox.length === 0 ? (
-          <p>호출 없음</p>
-        ) : (
-          myInbox.map((c) => (
-            <div key={c.id} className="draft-box">
-              <p>📨 {c.from} → 나 호출</p>
-              <p>time: {c.time}</p>
-            </div>
-          ))
-        )}
-
-        {/* 📄 결재 */}
+        {/* 📄 전자결재 (복구됨) */}
         {page === "전자결재" && (
           <div>
-            <h3>전자결재 (기존 유지)</h3>
+
+            <button onClick={() => setDraftOpen(!draftOpen)}>
+              기안하기
+            </button>
+
+            {draftOpen && (
+              <div className="draft-box">
+                {[
+                  "연차 사용 신청서",
+                  "초과 근무 신청서",
+                  "출장 신청서",
+                  "물품 구매 신청서",
+                  "보고 제출"
+                ].map((d) => (
+                  <div key={d} onClick={() => openDoc(d)}>
+                    {d}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {selectedDoc && (
+              <div>
+                <h3>{selectedDoc}</h3>
+                <button onClick={submitDraft}>제출</button>
+              </div>
+            )}
+
+            <h3>📄 결재함</h3>
+
+            {draftList.map((d) => (
+              <div key={d.id} className="draft-box">
+                <p>{d.doc}</p>
+                <p>{d.writer}</p>
+                <p>{d.status}</p>
+
+                {d.status !== "최종승인" && (
+                  <button onClick={() => approve(d.id)}>
+                    결재
+                  </button>
+                )}
+              </div>
+            ))}
           </div>
         )}
+
+        {/* 📩 호출 기록 */}
+        <h3>📩 호출 기록</h3>
+
+        {calls.map((c) => (
+          <div key={c.id} className="draft-box">
+            <p>{c.target} 호출됨</p>
+            <p>from: {c.from}</p>
+            <p>time: {c.time}</p>
+          </div>
+        ))}
       </main>
 
     </div>
