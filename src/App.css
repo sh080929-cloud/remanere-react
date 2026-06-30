@@ -72,4 +72,148 @@ body {
   width: 100%;
   margin: 8px 0;
   padding: 10px;
+}/* ===== HOME ===== */
+
+.home{
+    padding:30px;
+}
+
+.home-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
+
+.today{
+    color:#777;
+    font-size:15px;
+}
+
+.home-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:25px;
+}
+
+.card{
+    background:#fff;
+    border-radius:15px;
+    padding:20px;
+    min-height:230px;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+    transition:.2s;
+}
+
+.card:hover{
+    transform:translateY(-4px);
+}
+
+.card h2{
+    margin-top:0;
+    margin-bottom:15px;
+    color:#1d3557;
+    border-bottom:2px solid #e8eef6;
+    padding-bottom:10px;
+}
+
+.card p{
+    margin:10px 0;
+    color:#555;
+}.mail-page {
+  padding: 30px;
+}
+
+.mail-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.mail-tabs button {
+  border: none;
+  background: #e8eef6;
+  color: #1d3557;
+  padding: 10px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.mail-tabs button.active {
+  background: #1d3557;
+  color: white;
+}
+
+.mail-write {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,.08);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mail-write input,
+.mail-write textarea,
+.mail-write select {
+  padding: 12px;
+  border: 1px solid #d8dee9;
+  border-radius: 10px;
+  font-size: 15px;
+}
+
+.mail-write textarea {
+  min-height: 180px;
+  resize: vertical;
+}
+
+.mail-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mail-item {
+  background: white;
+  padding: 18px 20px;
+  border-radius: 14px;
+  box-shadow: 0 5px 15px rgba(0,0,0,.07);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mail-item:hover {
+  transform: translateY(-2px);
+}
+
+.mail-item.unread {
+  border-left: 5px solid #1d3557;
+}
+
+.mail-item span {
+  color: #777;
+  font-size: 13px;
+}
+
+.mail-detail {
+  background: white;
+  padding: 30px;
+  border-radius: 18px;
+  box-shadow: 0 8px 22px rgba(0,0,0,.08);
+}
+
+.mail-info {
+  color: #777;
+  margin: 20px 0;
+}
+
+.mail-content {
+  border-top: 1px solid #e8eef6;
+  padding-top: 25px;
+  white-space: pre-wrap;
+  line-height: 1.8;
 }
