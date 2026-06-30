@@ -1,0 +1,162 @@
+.approval-page {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.approval-select {
+  background: #fff;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 10px 24px rgba(20, 40, 70, 0.08);
+}
+
+.approval-select h3 {
+  margin-bottom: 18px;
+  color: #17395d;
+}
+
+.approval-type-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.approval-type-grid button {
+  border: none;
+  background: #eef4fb;
+  color: #17395d;
+  padding: 18px;
+  border-radius: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.approval-type-grid button:hover {
+  background: #17395d;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.approval-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.approval-card {
+  background: white;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 10px 24px rgba(20, 40, 70, .08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: .2s;
+}
+
+.approval-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(20,40,70,.12);
+}
+
+.approval-left {
+  flex: 1;
+}
+
+.approval-top {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.doc-type {
+  background: #edf4ff;
+  color: #17395d;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.status {
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.status.부장검토 {
+  background: #fff3d6;
+  color: #c98a00;
+}
+
+.status.사장검토 {
+  background: #e8f1ff;
+  color: #2563eb;
+}
+
+.status.최종승인 {
+  background: #e7f8ec;
+  color: #1d8a43;
+}
+
+.status.반려 {
+  background: #ffe7e7;
+  color: #d33d3d;
+}
+
+.approval-card h2 {
+  font-size: 22px;
+  color: #17395d;
+  margin-bottom: 12px;
+}
+
+.approval-content {
+  color: #5d6878;
+  margin-bottom: 18px;
+  line-height: 1.7;
+}
+
+.approval-info {
+  display: flex;
+  gap: 24px;
+  color: #8d97a5;
+  font-size: 14px;
+}
+
+.approval-right {
+  margin-left: 30px;
+}
+
+.approve-btn {
+  border: none;
+  background: #17395d;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.approve-btn:hover {
+  background: #21507f;
+}
+
+.empty-box {
+  background: white;
+  border-radius: 20px;
+  padding: 50px;
+  text-align: center;
+  box-shadow: 0 10px 24px rgba(20,40,70,.08);
+}
+
+.empty-box h2 {
+  color: #17395d;
+  margin-bottom: 10px;
+}
+
+.empty-box p {
+  color: #8d97a5;
+}

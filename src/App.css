@@ -36,9 +36,10 @@ body {
 }
 
 /* MAIN */
-.main {
-  margin-left: 270px;
-  padding: 20px;
+.main{
+    margin-left:235px;
+    padding:24px 30px;
+    max-width:1450px;
 }.draft-box {
   margin-top: 20px;
   padding: 15px;

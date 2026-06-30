@@ -1,0 +1,146 @@
+.notice-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.notice-page {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.notice-layout {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 18px;
+  min-height: 560px;
+}
+
+.notice-list-panel,
+.notice-detail-panel {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 26px rgba(20, 40, 70, 0.07);
+}
+
+.notice-list-panel {
+  padding: 18px;
+  overflow-y: auto;
+}
+
+.notice-detail-panel {
+  padding: 30px;
+}
+
+.notice-item {
+  padding: 16px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: .2s;
+  margin-top: 10px;
+  border-left: 5px solid transparent;
+}
+
+.notice-item:hover,
+.notice-item.selected {
+  background: #edf4ff;
+  border-left: 5px solid #17395d;
+}
+
+.notice-item strong {
+  display: block;
+  color: #24384d;
+  margin: 8px 0 4px;
+}
+
+.notice-item p {
+  color: #8a96a8;
+  font-size: 13px;
+}
+
+.notice-category {
+  display: inline-block;
+  background: #edf4ff;
+  color: #17395d;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.notice-detail-panel h2 {
+  color: #17395d;
+  font-size: 30px;
+  margin: 18px 0 12px;
+}
+
+.notice-meta {
+  color: #8a96a8;
+  margin-bottom: 24px;
+}
+
+.notice-content {
+  border-top: 1px solid #edf2f7;
+  padding-top: 24px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  color: #2c3f55;
+}
+
+.notice-placeholder,
+.notice-empty {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #8a96a8;
+  text-align: center;
+}
+
+.write-box {
+  background: white;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 10px 26px rgba(20, 40, 70, 0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.write-box input,
+.write-box textarea,
+.write-box select,
+.search-input {
+  border: 1px solid #dce4ee;
+  border-radius: 13px;
+  padding: 13px 15px;
+  font-size: 15px;
+}
+
+.write-box textarea {
+  min-height: 180px;
+  resize: vertical;
+}
+
+.search-input {
+  margin-bottom: 12px;
+}
+
+.back-btn {
+  border: none;
+  background: transparent;
+  color: #17395d;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.danger-btn {
+  margin-top: 28px;
+  border: none;
+  background: #d9534f;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+}

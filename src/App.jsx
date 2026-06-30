@@ -7,6 +7,7 @@ import Sidebar from "./components/Sidebar";
 import Home from "./components/Home";
 import Notice from "./components/Notice";
 import Mail from "./components/Mail";
+import Approval from "./components/Approval";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -18,7 +19,7 @@ function App() {
   const [page, setPage] = useState("홈");
 
   const [mails, setMails] = useState([]);
-  const [drafts, setDrafts] = useState([]);
+  const [approvals, setApprovals] = useState([]);
   const [calls, setCalls] = useState([]);
 
   const users = [
@@ -64,7 +65,6 @@ function App() {
 
   useEffect(() => {
     const saved = localStorage.getItem("user");
-
     if (saved) {
       setUser(JSON.parse(saved));
       setIsLoggedIn(true);
@@ -159,9 +159,7 @@ function App() {
         setMenuOpen={setMenuOpen}
       />
 
-      {menuOpen && (
-        <Sidebar menu={menu} handleClick={handleClick} />
-      )}
+      {menuOpen && <Sidebar menu={menu} handleClick={handleClick} />}
 
       <main className="main">
         {page === "홈" && (
@@ -169,7 +167,7 @@ function App() {
             user={user}
             notices={notices}
             mails={mails}
-            drafts={drafts}
+            drafts={approvals}
           />
         )}
 
@@ -190,30 +188,41 @@ function App() {
           />
         )}
 
+        {page === "전자결재" && (
+          <Approval
+            user={user}
+            approvals={approvals}
+            setApprovals={setApprovals}
+          />
+        )}
+
         {page !== "홈" &&
           page !== "공지사항" &&
-          page !== "사내메일" && (
+          page !== "사내메일" &&
+          page !== "전자결재" && (
             <div className="page-box">
               <h1>{page}</h1>
               <p>이 화면은 곧 제작 예정입니다.</p>
             </div>
           )}
 
-        <section className="call-section">
-          <h3>호출 기록</h3>
+        {page === "홈" && (
+  <section className="call-section">
+    <h3>호출 기록</h3>
 
-          {calls.length === 0 ? (
-            <p>호출 기록이 없습니다.</p>
-          ) : (
-            calls.map((c) => (
-              <div key={c.id} className="draft-box">
-                <p>{c.target} 호출</p>
-                <p>from: {c.from}</p>
-                <p>{c.time}</p>
-              </div>
-            ))
-          )}
-        </section>
+    {calls.length === 0 ? (
+      <p>호출 기록이 없습니다.</p>
+    ) : (
+      calls.map((c) => (
+        <div key={c.id} className="draft-box">
+          <p>{c.target} 호출</p>
+          <p>from: {c.from}</p>
+          <p>{c.time}</p>
+        </div>
+      ))
+    )}
+  </section>
+)}
       </main>
     </div>
   );

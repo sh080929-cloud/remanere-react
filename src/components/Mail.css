@@ -1,0 +1,146 @@
+.mail-page {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.mail-layout {
+  display: grid;
+  grid-template-columns: 190px 360px 1fr;
+  gap: 18px;
+  min-height: 560px;
+}
+
+.mail-menu,
+.mail-list-panel,
+.mail-detail-panel {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 26px rgba(20, 40, 70, 0.07);
+}
+
+.mail-menu {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mail-menu button {
+  border: none;
+  background: transparent;
+  color: #24384d;
+  padding: 14px 16px;
+  border-radius: 14px;
+  text-align: left;
+  font-weight: 800;
+  font-size: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mail-menu button.active {
+  background: #17395d;
+  color: white;
+  box-shadow: 0 8px 18px rgba(23,57,93,.18);
+}
+
+.mail-menu span {
+  opacity: 0.7;
+}
+
+.mail-list-panel {
+  padding: 14px;
+  overflow-y: auto;
+}
+
+.mail-item {
+  padding: 16px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: 0.18s;
+  border-left: 5px solid transparent;
+  margin-bottom: 10px;
+}
+
+.mail-item:hover,
+.mail-item.selected {
+  background: #edf4ff;
+  border-left: 5px solid #17395d;
+}
+
+.mail-item.unread {
+  border-left-color: #17395d;
+}
+
+.mail-item strong {
+  display: block;
+  color: #24384d;
+  margin-bottom: 6px;
+}
+
+.mail-item p,
+.mail-item span {
+  color: #8a96a8;
+  font-size: 13px;
+}
+
+.mail-detail-panel {
+  padding: 30px;
+}
+
+.mail-detail-panel h2 {
+  color: #17395d;
+  font-size: 28px;
+  margin-bottom: 18px;
+}
+
+.mail-info {
+  color: #8a96a8;
+  line-height: 1.8;
+  margin-bottom: 24px;
+}
+
+.mail-content {
+  border-top: 1px solid #edf2f7;
+  padding-top: 24px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  color: #2c3f55;
+}
+
+.mail-write {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mail-write input,
+.mail-write textarea,
+.mail-write select {
+  border: 1px solid #dce4ee;
+  border-radius: 13px;
+  padding: 13px 15px;
+  font-size: 15px;
+}
+
+.mail-write textarea {
+  min-height: 260px;
+  resize: vertical;
+}
+
+.mail-empty,
+.mail-placeholder {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #8a96a8;
+  text-align: center;
+}
+
+.mail-placeholder h2 {
+  color: #17395d;
+}
