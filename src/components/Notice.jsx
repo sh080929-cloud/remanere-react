@@ -69,11 +69,12 @@ function Notice({ user, notices, setNotices }) {
 
         {canWrite && (
           <button
-            className="primary-btn"
-            onClick={() => setWriteMode(!writeMode)}
-          >
-            {writeMode ? "작성 취소" : "+ 공지 작성"}
-          </button>
+  className="notice-new-btn"
+  onClick={() => setWriteMode(!writeMode)}
+>
+  <span className="plus">+</span>
+  {writeMode ? "닫기" : "새 공지"}
+</button>
         )}
       </div>
 

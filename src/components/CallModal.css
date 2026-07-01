@@ -1,0 +1,65 @@
+.modal-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 30, 45, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.call-modal {
+  width: 360px;
+  background: white;
+  border-radius: 22px;
+  padding: 28px;
+  box-shadow: 0 20px 50px rgba(0,0,0,.2);
+}
+
+.call-modal h2 {
+  color: #17395d;
+  margin-bottom: 8px;
+}
+
+.call-modal p {
+  color: #8a96a8;
+  margin-bottom: 20px;
+}
+
+.call-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.call-list button {
+  border: none;
+  background: #eef4fb;
+  color: #17395d;
+  padding: 13px;
+  border-radius: 13px;
+  font-weight: 800;
+}
+
+.call-list button:hover {
+  background: #17395d;
+  color: white;
+}
+
+.modal-close {
+  width: 100%;
+  margin-top: 18px;
+  border: none;
+  background: #f1f3f6;
+  color: #586575;
+  padding: 12px;
+  border-radius: 13px;
+  font-weight: 800;
+}.selected-schedule-list {
+  margin-top: 22px;
+}
+
+.selected-schedule-list h3 {
+  color: #17395d;
+  margin-bottom: 12px;
+}

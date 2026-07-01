@@ -13,7 +13,9 @@ function Sidebar({ menu, handleClick }) {
                 key={item}
                 onClick={() => handleClick(item)}
               >
-                {item}
+                {item === "부장 호출" ? " 부장 호출" :
+ item === "사장 호출" ? " 사장 호출" :
+ item}
               </li>
             ))}
           </ul>

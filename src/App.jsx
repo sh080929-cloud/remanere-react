@@ -8,6 +8,8 @@ import Home from "./components/Home";
 import Notice from "./components/Notice";
 import Mail from "./components/Mail";
 import Approval from "./components/Approval";
+import CallModal from "./components/CallModal";
+import Calendar from "./components/Calendar";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -21,6 +23,7 @@ function App() {
   const [mails, setMails] = useState([]);
   const [approvals, setApprovals] = useState([]);
   const [calls, setCalls] = useState([]);
+  const [callModal, setCallModal] = useState(null);
 
   const users = [
     { codename: "루멘", pw: "0505", role: "사장" },
@@ -110,29 +113,22 @@ function App() {
 
   const handleClick = (item) => {
     if (item === "부장 호출") {
-      const choice = prompt("호출할 부장을 입력하세요: 루멘 / 시드 / 에스");
+  setCallModal("manager");
+  setMenuOpen(false);
+  return;
+}
 
-      if (choice === "루멘" || choice === "시드" || choice === "에스") {
-        callPerson(choice);
-      } else {
-        alert("루멘, 시드, 에스 중에서 입력해주세요.");
-      }
+if (item === "사장 호출") {
+  if (user.codename !== "시드" && user.codename !== "에스") {
+    alert("사장 호출은 부장만 가능합니다.");
+    setMenuOpen(false);
+    return;
+  }
 
-      setMenuOpen(false);
-      return;
-    }
-
-    if (item === "사장 호출") {
-      if (user.codename !== "시드" && user.codename !== "에스") {
-        alert("사장 호출은 부장만 가능합니다.");
-        setMenuOpen(false);
-        return;
-      }
-
-      callPerson("루멘");
-      setMenuOpen(false);
-      return;
-    }
+  setCallModal("boss");
+  setMenuOpen(false);
+  return;
+}
 
     setPage(item);
     setMenuOpen(false);
@@ -197,12 +193,16 @@ function App() {
             approvals={approvals}
             setApprovals={setApprovals}
           />
-        )}
+          )}
+          {page === "일정관리" && (
+  <Calendar />
+)}
 
         {page !== "홈" &&
           page !== "공지사항" &&
           page !== "사내메일" &&
-          page !== "전자결재" && (
+          page !== "전자결재" &&
+          page !== "일정관리" &&(
             <div className="page-box">
               <h1>{page}</h1>
               <p>이 화면은 곧 제작 예정입니다.</p>
@@ -227,6 +227,17 @@ function App() {
   </section>
 )}
       </main>
+      {callModal && (
+  <CallModal
+    type={callModal}
+    user={user}
+    onClose={() => setCallModal(null)}
+    onCall={(target) => {
+      callPerson(target);
+      setCallModal(null);
+    }}
+  />
+)}
     </div>
   );
 }
