@@ -1,9 +1,9 @@
 import "./Header.css";
 
-function Header({ user, logout, menuOpen, setMenuOpen }) {
+function Header({ user, logout, menuOpen, setMenuOpen, setPage }) {
   return (
     <header className="header">
-      <div className="header-brand">
+      <div className="header-brand" onClick={() => setPage("홈")}>
         <h1>REMANERE</h1>
         <span>GROUPWARE SYSTEM</span>
       </div>

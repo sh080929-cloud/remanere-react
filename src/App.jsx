@@ -153,11 +153,12 @@ function App() {
   return (
     <div className="app">
       <Header
-        user={user}
-        logout={logout}
-        menuOpen={menuOpen}
-        setMenuOpen={setMenuOpen}
-      />
+  user={user}
+  logout={logout}
+  menuOpen={menuOpen}
+  setMenuOpen={setMenuOpen}
+  setPage={setPage}
+/>
 
       {menuOpen && <Sidebar menu={menu} handleClick={handleClick} />}
 
@@ -168,6 +169,7 @@ function App() {
             notices={notices}
             mails={mails}
             drafts={approvals}
+            setPage={setPage}
           />
         )}
 
@@ -176,6 +178,7 @@ function App() {
             user={user}
             notices={notices}
             setNotices={setNotices}
+              setPage={setPage}
           />
         )}
 

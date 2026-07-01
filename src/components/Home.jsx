@@ -1,6 +1,6 @@
 import "./Home.css";
 
-function Home({ user, notices = [], mails = [], drafts = [] }) {
+function Home({ user, notices = [], mails = [], drafts = [], setPage }) {
   const today = new Date();
 
   const dateText = today.toLocaleDateString("ko-KR", {
@@ -27,9 +27,7 @@ function Home({ user, notices = [], mails = [], drafts = [] }) {
             <br />
             {user.codename}님.
           </h1>
-          <p className="hero-sub">
-            오늘도 안전한 근무를 기원합니다.
-          </p>
+          <p className="hero-sub">오늘도 안전한 근무를 기원합니다.</p>
         </div>
 
         <div className="hero-date">
@@ -39,9 +37,8 @@ function Home({ user, notices = [], mails = [], drafts = [] }) {
       </section>
 
       <section className="home-grid">
-        <div className="card">
+        <div className="card clickable" onClick={() => setPage("공지사항")}>
           <h2>공지사항</h2>
-
           {recentNotices.length === 0 ? (
             <p className="empty">등록된 공지가 없습니다.</p>
           ) : (
@@ -54,9 +51,8 @@ function Home({ user, notices = [], mails = [], drafts = [] }) {
           )}
         </div>
 
-        <div className="card">
+        <div className="card clickable" onClick={() => setPage("사내메일")}>
           <h2>최근 메일</h2>
-
           {recentMails.length === 0 ? (
             <p className="empty">받은 메일이 없습니다.</p>
           ) : (
@@ -69,9 +65,8 @@ function Home({ user, notices = [], mails = [], drafts = [] }) {
           )}
         </div>
 
-        <div className="card">
+        <div className="card clickable" onClick={() => setPage("전자결재")}>
           <h2>결재 현황</h2>
-
           {recentDrafts.length === 0 ? (
             <p className="empty">결재 문서가 없습니다.</p>
           ) : (
@@ -84,7 +79,7 @@ function Home({ user, notices = [], mails = [], drafts = [] }) {
           )}
         </div>
 
-        <div className="card">
+        <div className="card clickable" onClick={() => setPage("일정관리")}>
           <h2>오늘 일정</h2>
           <p className="empty">등록된 일정이 없습니다.</p>
         </div>

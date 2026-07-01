@@ -4,16 +4,19 @@
   gap: 22px;
 }
 
-.approval-select {
-  background: #fff;
+.approval-select,
+.write-box,
+.empty-box {
+  background: white;
   border-radius: 20px;
   padding: 24px;
-  box-shadow: 0 10px 24px rgba(20, 40, 70, 0.08);
+  box-shadow: 0 10px 26px rgba(20, 40, 70, 0.07);
 }
 
-.approval-select h3 {
-  margin-bottom: 18px;
+.approval-select h3,
+.write-box h3 {
   color: #17395d;
+  margin-bottom: 18px;
 }
 
 .approval-type-grid {
@@ -28,9 +31,7 @@
   color: #17395d;
   padding: 18px;
   border-radius: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: .2s;
+  font-weight: 800;
 }
 
 .approval-type-grid button:hover {
@@ -39,26 +40,45 @@
   transform: translateY(-2px);
 }
 
+.write-box {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.write-box input,
+.write-box textarea {
+  border: 1px solid #dce4ee;
+  border-radius: 13px;
+  padding: 13px 15px;
+  font-size: 15px;
+}
+
+.write-box textarea {
+  min-height: 160px;
+  resize: vertical;
+}
+
 .approval-list {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 16px;
 }
 
 .approval-card {
   background: white;
   border-radius: 20px;
   padding: 24px;
-  box-shadow: 0 10px 24px rgba(20, 40, 70, .08);
+  box-shadow: 0 10px 26px rgba(20, 40, 70, 0.07);
+  border-left: 6px solid #17395d;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  transition: .2s;
+  gap: 24px;
+  transition: 0.18s;
 }
 
 .approval-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 15px 30px rgba(20,40,70,.12);
 }
 
 .approval-left {
@@ -71,20 +91,17 @@
   margin-bottom: 14px;
 }
 
-.doc-type {
-  background: #edf4ff;
-  color: #17395d;
-  padding: 5px 12px;
-  border-radius: 999px;
-  font-size: 13px;
-  font-weight: 700;
-}
-
+.doc-type,
 .status {
   padding: 5px 12px;
   border-radius: 999px;
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 800;
+}
+
+.doc-type {
+  background: #edf4ff;
+  color: #17395d;
 }
 
 .status.부장검토 {
@@ -108,15 +125,15 @@
 }
 
 .approval-card h2 {
-  font-size: 22px;
   color: #17395d;
+  font-size: 23px;
   margin-bottom: 12px;
 }
 
 .approval-content {
   color: #5d6878;
-  margin-bottom: 18px;
   line-height: 1.7;
+  margin-bottom: 16px;
 }
 
 .approval-info {
@@ -127,29 +144,34 @@
 }
 
 .approval-right {
-  margin-left: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 110px;
 }
 
-.approve-btn {
+.approve-btn,
+.reject-btn {
   border: none;
-  background: #17395d;
   color: white;
-  padding: 12px 20px;
+  padding: 12px 18px;
   border-radius: 12px;
-  font-weight: 700;
+  font-weight: 800;
   cursor: pointer;
 }
 
-.approve-btn:hover {
-  background: #21507f;
+.approve-btn {
+  background: #17395d;
+}
+
+.reject-btn {
+  background: #d9534f;
+  margin-top: 10px;
 }
 
 .empty-box {
-  background: white;
-  border-radius: 20px;
-  padding: 50px;
   text-align: center;
-  box-shadow: 0 10px 24px rgba(20,40,70,.08);
+  padding: 50px;
 }
 
 .empty-box h2 {
@@ -159,4 +181,76 @@
 
 .empty-box p {
   color: #8d97a5;
+}.reject-box {
+  margin-top: 12px;
+  background: #fff7f7;
+  border: 1px solid #ffd3d3;
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.reject-box textarea {
+  width: 100%;
+  min-height: 90px;
+  border: 1px solid #ffd3d3;
+  border-radius: 12px;
+  padding: 10px;
+  resize: vertical;
+}
+
+.reject-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.reject-confirm,
+.reject-cancel {
+  border: none;
+  padding: 9px 12px;
+  border-radius: 10px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.reject-confirm {
+  background: #d9534f;
+  color: white;
+}
+
+.reject-cancel {
+  background: #eef4fb;
+  color: #17395d;
+}.approval-new-btn{
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    background:#17395d;
+    color:white;
+
+    border:none;
+    border-radius:14px;
+
+    padding:13px 22px;
+
+    font-size:15px;
+    font-weight:800;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+    box-shadow:0 8px 18px rgba(23,57,93,.18);
+}
+
+.approval-new-btn:hover{
+    background:#204c78;
+    transform:translateY(-2px);
+}
+
+.approval-new-btn .plus{
+    font-size:24px;
+    font-weight:300;
+    line-height:1;
 }

@@ -116,4 +116,10 @@
   .home-grid {
     grid-template-columns: 1fr;
   }
+}.clickable {
+  cursor: pointer;
+}
+
+.clickable:hover {
+  transform: translateY(-6px);
 }

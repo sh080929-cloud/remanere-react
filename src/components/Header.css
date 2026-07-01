@@ -75,4 +75,6 @@
 .menu-btn:hover,
 .logout-btn:hover {
   transform: translateY(-2px);
+}.header-brand {
+  cursor: pointer;
 }
