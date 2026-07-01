@@ -4,10 +4,9 @@ import "./Approval.css";
 function Approval({ user, approvals, setApprovals }) {
   const [writeMode, setWriteMode] = useState(false);
   const [docType, setDocType] = useState(null);
-  const [rejectTargetId, setRejectTargetId] = useState(null);
-const [rejectReason, setRejectReason] = useState("");
-
   const [form, setForm] = useState({});
+  const [rejectTargetId, setRejectTargetId] = useState(null);
+  const [rejectReason, setRejectReason] = useState("");
 
   const docTypes = [
     "연차 신청서",
@@ -57,6 +56,7 @@ const [rejectReason, setRejectReason] = useState("");
             alert("부장만 승인할 수 있습니다.");
             return doc;
           }
+
           return { ...doc, status: "사장검토" };
         }
 
@@ -65,6 +65,7 @@ const [rejectReason, setRejectReason] = useState("");
             alert("최종 승인 권한이 없습니다.");
             return doc;
           }
+
           return { ...doc, status: "최종승인" };
         }
 
@@ -73,23 +74,23 @@ const [rejectReason, setRejectReason] = useState("");
     );
   };
 
- const rejectDoc = (id) => {
-  if (!rejectReason.trim()) {
-    alert("반려 사유를 입력해주세요.");
-    return;
-  }
+  const rejectDoc = (id) => {
+    if (!rejectReason.trim()) {
+      alert("반려 사유를 입력해주세요.");
+      return;
+    }
 
-  setApprovals(
-    approvals.map((doc) =>
-      doc.id === id
-        ? { ...doc, status: "반려", rejectReason }
-        : doc
-    )
-  );
+    setApprovals(
+      approvals.map((doc) =>
+        doc.id === id
+          ? { ...doc, status: "반려", rejectReason }
+          : doc
+      )
+    );
 
-  setRejectTargetId(null);
-  setRejectReason("");
-};
+    setRejectTargetId(null);
+    setRejectReason("");
+  };
 
   const renderForm = () => {
     if (!docType) return null;
@@ -102,20 +103,20 @@ const [rejectReason, setRejectReason] = useState("");
           placeholder="문서 제목"
           value={form.title || ""}
           onChange={(e) => updateForm("title", e.target.value)}
-        />
-
-        {docType === "연차 신청서" && (
+        />        {docType === "연차 신청서" && (
           <>
             <input
               type="date"
               value={form.startDate || ""}
               onChange={(e) => updateForm("startDate", e.target.value)}
             />
+
             <input
               type="date"
               value={form.endDate || ""}
               onChange={(e) => updateForm("endDate", e.target.value)}
             />
+
             <textarea
               placeholder="연차 사유"
               value={form.reason || ""}
@@ -131,11 +132,13 @@ const [rejectReason, setRejectReason] = useState("");
               value={form.place || ""}
               onChange={(e) => updateForm("place", e.target.value)}
             />
+
             <input
               placeholder="출장 기간"
               value={form.period || ""}
               onChange={(e) => updateForm("period", e.target.value)}
             />
+
             <textarea
               placeholder="출장 목적"
               value={form.purpose || ""}
@@ -151,6 +154,7 @@ const [rejectReason, setRejectReason] = useState("");
               value={form.workTime || ""}
               onChange={(e) => updateForm("workTime", e.target.value)}
             />
+
             <textarea
               placeholder="초과근무 사유"
               value={form.reason || ""}
@@ -166,16 +170,19 @@ const [rejectReason, setRejectReason] = useState("");
               value={form.item || ""}
               onChange={(e) => updateForm("item", e.target.value)}
             />
+
             <input
               placeholder="수량"
               value={form.amount || ""}
               onChange={(e) => updateForm("amount", e.target.value)}
             />
+
             <input
               placeholder="예상 금액"
               value={form.price || ""}
               onChange={(e) => updateForm("price", e.target.value)}
             />
+
             <textarea
               placeholder="구매 사유"
               value={form.reason || ""}
@@ -191,11 +198,13 @@ const [rejectReason, setRejectReason] = useState("");
               value={form.allowanceType || ""}
               onChange={(e) => updateForm("allowanceType", e.target.value)}
             />
+
             <input
               placeholder="신청 금액"
               value={form.price || ""}
               onChange={(e) => updateForm("price", e.target.value)}
             />
+
             <textarea
               placeholder="신청 사유"
               value={form.reason || ""}
@@ -211,6 +220,7 @@ const [rejectReason, setRejectReason] = useState("");
               value={form.workTitle || ""}
               onChange={(e) => updateForm("workTitle", e.target.value)}
             />
+
             <textarea
               placeholder="업무 내용"
               value={form.content || ""}
@@ -224,9 +234,7 @@ const [rejectReason, setRejectReason] = useState("");
         </button>
       </div>
     );
-  };
-
-  return (
+  };  return (
     <div className="approval-page">
       <div className="page-header">
         <div>
@@ -235,15 +243,15 @@ const [rejectReason, setRejectReason] = useState("");
         </div>
 
         <button
-  className="approval-new-btn"
-  onClick={() => {
-    setWriteMode(!writeMode);
-    setDocType(null);
-  }}
->
-  <span className="plus">+</span>
-  {writeMode ? "닫기" : "새 기안"}
-</button>
+          className="approval-new-btn"
+          onClick={() => {
+            setWriteMode(!writeMode);
+            setDocType(null);
+          }}
+        >
+          <span className="plus">+</span>
+          {writeMode ? "닫기" : "새 기안"}
+        </button>
       </div>
 
       {writeMode && !docType && (
@@ -266,7 +274,7 @@ const [rejectReason, setRejectReason] = useState("");
         {approvals.length === 0 ? (
           <div className="empty-box">
             <h2>결재 문서가 없습니다.</h2>
-            <p>우측 상단의 새 문서를 눌러 작성하세요.</p>
+            <p>우측 상단의 새 기안을 눌러 작성하세요.</p>
           </div>
         ) : (
           approvals.map((doc) => (
@@ -274,13 +282,10 @@ const [rejectReason, setRejectReason] = useState("");
               <div className="approval-left">
                 <div className="approval-top">
                   <span className="doc-type">{doc.docType}</span>
-                  <span className={`status ${doc.status}`}>
-                    {doc.status}
-                  </span>
+                  <span className={`status ${doc.status}`}>{doc.status}</span>
                 </div>
 
                 <h2>{doc.title}</h2>
-
                 <p className="approval-content">{doc.content}</p>
 
                 {doc.rejectReason && (
@@ -299,36 +304,47 @@ const [rejectReason, setRejectReason] = useState("");
                 {doc.status !== "최종승인" && doc.status !== "반려" && (
                   <>
                     <button
-  className="reject-btn"
-  onClick={() => setRejectTargetId(doc.id)}
->
-  ✖ 반려
-</button>
-{rejectTargetId === doc.id && (
-  <div className="reject-box">
-    <textarea
-      placeholder="반려 사유를 입력하세요."
-      value={rejectReason}
-      onChange={(e) => setRejectReason(e.target.value)}
-    />
+                      className="approve-btn"
+                      onClick={() => approveDoc(doc.id)}
+                    >
+                      ✔ 승인
+                    </button>
 
-    <div className="reject-actions">
-      <button className="reject-confirm" onClick={() => rejectDoc(doc.id)}>
-        반려 확정
-      </button>
+                    <button
+                      className="reject-btn"
+                      onClick={() => setRejectTargetId(doc.id)}
+                    >
+                      ✖ 반려
+                    </button>
 
-      <button
-        className="reject-cancel"
-        onClick={() => {
-          setRejectTargetId(null);
-          setRejectReason("");
-        }}
-      >
-        취소
-      </button>
-    </div>
-  </div>
-)}
+                    {rejectTargetId === doc.id && (
+                      <div className="reject-box">
+                        <textarea
+                          placeholder="반려 사유를 입력하세요."
+                          value={rejectReason}
+                          onChange={(e) => setRejectReason(e.target.value)}
+                        />
+
+                        <div className="reject-actions">
+                          <button
+                            className="reject-confirm"
+                            onClick={() => rejectDoc(doc.id)}
+                          >
+                            반려 확정
+                          </button>
+
+                          <button
+                            className="reject-cancel"
+                            onClick={() => {
+                              setRejectTargetId(null);
+                              setRejectReason("");
+                            }}
+                          >
+                            취소
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </>
                 )}
               </div>

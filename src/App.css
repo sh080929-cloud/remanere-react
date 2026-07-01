@@ -236,4 +236,26 @@ body {
     align-items: flex-start;
     gap: 14px;
   }
+}/* ===== 공통 버튼 ===== */
+
+.primary-btn {
+  border: none;
+  background: linear-gradient(135deg, #17395d, #24578d);
+  color: white;
+  padding: 13px 24px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: .2s;
+  box-shadow: 0 8px 18px rgba(23,57,93,.18);
+}
+
+.primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(23,57,93,.25);
+}
+
+.primary-btn:active {
+  transform: scale(.97);
 }

@@ -10,6 +10,7 @@ import Mail from "./components/Mail";
 import Approval from "./components/Approval";
 import CallModal from "./components/CallModal";
 import Calendar from "./components/Calendar";
+import Welfare from "./components/Welfare";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -197,12 +198,16 @@ if (item === "사장 호출") {
           {page === "일정관리" && (
   <Calendar />
 )}
+{page === "복지" && (
+  <Welfare />
+)}
 
         {page !== "홈" &&
           page !== "공지사항" &&
           page !== "사내메일" &&
           page !== "전자결재" &&
-          page !== "일정관리" &&(
+          page !== "일정관리" &&
+          page !== "복지" &&(
             <div className="page-box">
               <h1>{page}</h1>
               <p>이 화면은 곧 제작 예정입니다.</p>

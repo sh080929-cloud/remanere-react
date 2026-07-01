@@ -36,7 +36,6 @@ function CalendarPage() {
     };
 
     setSchedules((prev) => [newSchedule, ...prev]);
-
     alert("일정이 등록되었습니다.");
 
     setTitle("");
@@ -86,26 +85,26 @@ function CalendarPage() {
           <h2>일정 달력</h2>
 
           <ReactCalendar
-  onChange={setValue}
-  value={value}
-  locale="ko-KR"
-  tileContent={({ date }) => {
-    const dateText =
-      date.getFullYear() +
-      "-" +
-      String(date.getMonth() + 1).padStart(2, "0") +
-      "-" +
-      String(date.getDate()).padStart(2, "0");
+            onChange={setValue}
+            value={value}
+            locale="ko-KR"
+            tileContent={({ date }) => {
+              const dateText =
+                date.getFullYear() +
+                "-" +
+                String(date.getMonth() + 1).padStart(2, "0") +
+                "-" +
+                String(date.getDate()).padStart(2, "0");
 
-    const hasSchedule = schedules.some(
-      (s) => s.date === dateText
-    );
+              const hasSchedule = schedules.some(
+                (s) => s.date === dateText
+              );
 
-    return hasSchedule ? (
-      <div className="schedule-dot"></div>
-    ) : null;
-  }}
-/>
+              return hasSchedule ? (
+                <div className="schedule-dot"></div>
+              ) : null;
+            }}
+          />
 
           <div className="selected-date">
             선택한 날짜 :
