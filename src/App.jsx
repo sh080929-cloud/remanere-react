@@ -11,7 +11,12 @@ import Approval from "./components/Approval";
 import CallModal from "./components/CallModal";
 import Calendar from "./components/Calendar";
 import Welfare from "./components/Welfare";
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+} from "firebase/firestore";
 import { db } from "./firebase";
 
 function App() {
@@ -56,7 +61,9 @@ function App() {
       setUser(JSON.parse(saved));
       setIsLoggedIn(true);
     }
-  }, []);useEffect(() => {
+  }, []);
+  useEffect(() => {
+
   const q = query(
     collection(db, "notices"),
     orderBy("createdAt", "desc")
@@ -69,6 +76,23 @@ function App() {
     }));
 
     setNotices(noticeData);
+  });
+
+  return () => unsubscribe();
+}, []);
+useEffect(() => {
+  const q = query(
+    collection(db, "mails"),
+    orderBy("createdAt", "desc")
+  );
+
+  const unsubscribe = onSnapshot(q, (snapshot) => {
+    const mailData = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    setMails(mailData);
   });
 
   return () => unsubscribe();

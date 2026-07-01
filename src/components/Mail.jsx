@@ -1,5 +1,7 @@
 import "./Mail.css";
 import { useState } from "react";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { db } from "../firebase";
 
 function Mail({ user, users, mails, setMails }) {
   const [tab, setTab] = useState("inbox");
@@ -12,36 +14,36 @@ function Mail({ user, users, mails, setMails }) {
   const sent = mails.filter((m) => m.from === user.codename);
   const currentList = tab === "inbox" ? inbox : sent;
 
-  const sendMail = () => {
+  const sendMail = async () => {
     if (!to || !title || !content) {
       alert("받는 사람, 제목, 내용을 모두 입력해주세요.");
       return;
     }
 
-    const newMail = {
-      id: Date.now(),
-      from: user.codename,
-      to,
-      title,
-      content,
-      time: new Date().toLocaleString("ko-KR"),
-      read: false,
-    };
+    try {
+      await addDoc(collection(db, "mails"), {
+        from: user.codename,
+        to,
+        title,
+        content,
+        time: new Date().toLocaleString("ko-KR"),
+        read: false,
+        createdAt: serverTimestamp(),
+      });
 
-    setMails([newMail, ...mails]);
-    setTo("");
-    setTitle("");
-    setContent("");
-    setTab("sent");
-    setSelectedMail(newMail);
+    
+
+      setTo("");
+      setTitle("");
+      setContent("");
+      setTab("sent");
+    } catch (e) {
+      alert("오류: " + e.message);
+    }
   };
 
   const openMail = (mail) => {
     setSelectedMail(mail);
-
-    if (mail.to === user.codename && !mail.read) {
-      setMails(mails.map((m) => (m.id === mail.id ? { ...m, read: true } : m)));
-    }
   };
 
   return (
@@ -62,7 +64,7 @@ function Mail({ user, users, mails, setMails }) {
             📤 보낸메일 <span>{sent.length}</span>
           </button>
           <button className={tab === "write" ? "active" : ""} onClick={() => { setTab("write"); setSelectedMail(null); }}>
-           ✏ 메일쓰기
+            ✏ 메일쓰기
           </button>
         </aside>
 
