@@ -36,6 +36,29 @@ function Welfare() {
   ];
 
   const [selected, setSelected] = useState(services[0]);
+  const [requestMode, setRequestMode] = useState(false);
+  const [requestText, setRequestText] = useState("");
+  const [requests, setRequests] = useState([]);
+
+  const submitRequest = () => {
+    if (!requestText.trim()) {
+      alert("신청 내용을 입력해주세요.");
+      return;
+    }
+
+    const newRequest = {
+      id: Date.now(),
+      service: selected.title,
+      content: requestText,
+      status: "신청 완료",
+      date: new Date().toLocaleString("ko-KR"),
+    };
+
+    setRequests([newRequest, ...requests]);
+    setRequestText("");
+    setRequestMode(false);
+    alert("신청이 접수되었습니다.");
+  };
 
   return (
     <div className="welfare-page">
@@ -54,7 +77,11 @@ function Welfare() {
               className={`service-card ${
                 selected.title === item.title ? "active" : ""
               }`}
-              onClick={() => setSelected(item)}
+              onClick={() => {
+                setSelected(item);
+                setRequestMode(false);
+                setRequestText("");
+              }}
             >
               <h2>{item.title}</h2>
               <p>{item.desc}</p>
@@ -74,7 +101,50 @@ function Welfare() {
             ))}
           </div>
 
-          <button className="primary-btn">신청하기</button>
+          {!requestMode ? (
+            <button className="primary-btn" onClick={() => setRequestMode(true)}>
+              신청하기
+            </button>
+          ) : (
+            <div className="request-box">
+              <textarea
+                placeholder="신청 내용을 입력하세요."
+                value={requestText}
+                onChange={(e) => setRequestText(e.target.value)}
+              />
+
+              <div className="request-actions">
+                <button className="primary-btn" onClick={submitRequest}>
+                  신청 접수
+                </button>
+                <button
+                  className="cancel-btn"
+                  onClick={() => {
+                    setRequestMode(false);
+                    setRequestText("");
+                  }}
+                >
+                  취소
+                </button>
+              </div>
+            </div>
+          )}
+
+          <div className="request-list">
+            <h3>신청 기록</h3>
+
+            {requests.length === 0 ? (
+              <p className="empty">신청 기록이 없습니다.</p>
+            ) : (
+              requests.map((req) => (
+                <div key={req.id} className="request-card">
+                  <strong>{req.service}</strong>
+                  <p>{req.content}</p>
+                  <span>{req.status} · {req.date}</span>
+                </div>
+              ))
+            )}
+          </div>
         </div>
       </div>
     </div>

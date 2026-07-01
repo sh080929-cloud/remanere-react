@@ -69,4 +69,62 @@
   .welfare-grid {
     grid-template-columns: 1fr;
   }
+}.request-box {
+  margin-top: 18px;
+}
+
+.request-box textarea {
+  width: 100%;
+  min-height: 110px;
+  border: 1px solid #dce4ee;
+  border-radius: 14px;
+  padding: 13px 15px;
+  resize: vertical;
+}
+
+.request-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.cancel-btn {
+  border: none;
+  background: #eef4fb;
+  color: #17395d;
+  padding: 13px 20px;
+  border-radius: 999px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.request-list {
+  margin-top: 26px;
+}
+
+.request-list h3 {
+  color: #17395d;
+  margin-bottom: 12px;
+}
+
+.request-card {
+  background: #f7fbff;
+  border-left: 5px solid #17395d;
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 10px;
+}
+
+.request-card strong {
+  color: #17395d;
+}
+
+.request-card p {
+  margin: 8px 0;
+  color: #4f5f73;
+}
+
+.request-card span {
+  font-size: 13px;
+  color: #8a96a8;
 }
