@@ -77,4 +77,35 @@
   transform: translateY(-2px);
 }.header-brand {
   cursor: pointer;
+}@media (max-width: 768px) {
+  .header {
+    height: 64px;
+    padding: 0 14px;
+  }
+
+  .header-brand h1 {
+    font-size: 20px;
+    letter-spacing: 1.5px;
+  }
+
+  .header-brand span {
+    font-size: 9px;
+  }
+
+  .header-user {
+    display: none;
+  }
+
+  .logout-btn {
+    display: none;
+  }
+
+  .alarm-btn {
+    display: none;
+  }
+
+  .menu-btn {
+    width: 40px;
+    height: 40px;
+  }
 }

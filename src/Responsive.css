@@ -1,0 +1,39 @@
+@media (max-width: 768px) {
+  .main {
+    margin-left: 0;
+    padding: 16px;
+  }
+
+  .home-hero {
+    padding: 28px 24px;
+  }
+
+  .home-hero h1 {
+    font-size: 28px;
+  }
+
+  .home-grid,
+  .calendar-layout,
+  .notice-layout,
+  .mail-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .approval-type-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .approval-card {
+    flex-direction: column;
+  }
+
+  .approval-right {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .approve-btn,
+  .reject-btn {
+    width: 100%;
+  }
+}

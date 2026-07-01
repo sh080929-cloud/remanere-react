@@ -217,4 +217,23 @@ body {
   padding-top: 25px;
   white-space: pre-wrap;
   line-height: 1.8;
+}@media (max-width: 768px) {
+  .main {
+    margin-left: 0;
+    padding: 18px;
+  }
+
+  .sidebar {
+    top: 64px;
+    width: 78%;
+    max-width: 300px;
+    height: calc(100vh - 64px);
+    z-index: 1500;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
 }
