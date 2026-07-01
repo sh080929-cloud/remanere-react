@@ -1,9 +1,17 @@
 import "./Notice.css";
 import { useState } from "react";
+import {
+  addDoc,
+  collection,
+  serverTimestamp,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
+import { db } from "../firebase";
 
-function Notice({ user, notices, setNotices }) {
+function Notice({ user, notices }) {
   const [search, setSearch] = useState("");
-  const [selectedNotice, setSelectedNotice] = useState(notices[0] || null);
+  const [selectedNotice, setSelectedNotice] = useState(null);
   const [writeMode, setWriteMode] = useState(false);
 
   const [category, setCategory] = useState("전체");
@@ -12,41 +20,46 @@ function Notice({ user, notices, setNotices }) {
 
   const canWrite = user.role === "부장" || user.role === "사장";
 
-  const filteredNotices = notices.filter(
-    (notice) =>
-      notice.title.includes(search) ||
-      notice.content.includes(search) ||
-      notice.writer.includes(search) ||
-      notice.category.includes(search)
-  );
+  const filteredNotices = notices.filter((notice) => {
+    const keyword = search.trim();
 
-  const submitNotice = () => {
-    if (!title || !content) {
+    return (
+      notice.title?.includes(keyword) ||
+      notice.content?.includes(keyword) ||
+      notice.writer?.includes(keyword) ||
+      notice.category?.includes(keyword)
+    );
+  });
+
+  const submitNotice = async () => {
+    if (!title.trim() || !content.trim()) {
       alert("제목과 내용을 입력해주세요.");
       return;
     }
 
-    const newNotice = {
-      id: Date.now(),
-      category,
-      title,
-      content,
-      writer: user.codename,
-      writerRole: user.role,
-      date: new Date().toLocaleDateString("ko-KR"),
-    };
+    try {
+      await addDoc(collection(db, "notices"), {
+        category,
+        title,
+        content,
+        writer: user.codename,
+        writerRole: user.role,
+        date: new Date().toLocaleDateString("ko-KR"),
+        createdAt: serverTimestamp(),
+      });
 
-    const updated = [newNotice, ...notices];
+    
 
-    setNotices(updated);
-    setSelectedNotice(newNotice);
-    setTitle("");
-    setContent("");
-    setCategory("전체");
-    setWriteMode(false);
+      setTitle("");
+      setContent("");
+      setCategory("전체");
+      setWriteMode(false);
+    } catch (e) {
+      alert("오류: " + e.message);
+    }
   };
 
-  const deleteNotice = (id) => {
+  const deleteNotice = async (id) => {
     const target = notices.find((n) => n.id === id);
 
     if (user.role !== "사장" && target.writer !== user.codename) {
@@ -54,9 +67,8 @@ function Notice({ user, notices, setNotices }) {
       return;
     }
 
-    const updated = notices.filter((n) => n.id !== id);
-    setNotices(updated);
-    setSelectedNotice(updated[0] || null);
+    await deleteDoc(doc(db, "notices", id));
+    setSelectedNotice(null);
   };
 
   return (
@@ -69,12 +81,12 @@ function Notice({ user, notices, setNotices }) {
 
         {canWrite && (
           <button
-  className="notice-new-btn"
-  onClick={() => setWriteMode(!writeMode)}
->
-  <span className="plus">+</span>
-  {writeMode ? "닫기" : "새 공지"}
-</button>
+            className="notice-new-btn"
+            onClick={() => setWriteMode(!writeMode)}
+          >
+            <span className="plus">+</span>
+            {writeMode ? "닫기" : "새 공지"}
+          </button>
         )}
       </div>
 
@@ -148,9 +160,7 @@ function Notice({ user, notices, setNotices }) {
                 작성자 {selectedNotice.writer} · {selectedNotice.date}
               </div>
 
-              <div className="notice-content">
-                {selectedNotice.content}
-              </div>
+              <div className="notice-content">{selectedNotice.content}</div>
 
               {(user.role === "사장" ||
                 selectedNotice.writer === user.codename) && (

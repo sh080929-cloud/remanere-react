@@ -11,6 +11,8 @@ import Approval from "./components/Approval";
 import CallModal from "./components/CallModal";
 import Calendar from "./components/Calendar";
 import Welfare from "./components/Welfare";
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { db } from "./firebase";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -39,26 +41,7 @@ function App() {
     { codename: "루아나", pw: "0505", role: "사원" },
   ];
 
-  const [notices, setNotices] = useState([
-    {
-      id: 1,
-      category: "전체",
-      title: "REMANERE 정기 보안 점검 안내",
-      content: "금일 18시부터 사내 보안 점검이 진행됩니다.",
-      writer: "루멘",
-      writerRole: "사장",
-      date: "2026.06.30",
-    },
-    {
-      id: 2,
-      category: "정보부",
-      title: "자료 제출 양식 변경 안내",
-      content: "정보부 제출 문서 양식이 일부 변경되었습니다.",
-      writer: "시드",
-      writerRole: "부장",
-      date: "2026.06.30",
-    },
-  ]);
+  const [notices, setNotices] = useState([]);
 
   const menu = [
     { title: "소통", items: ["공지사항", "사내메일"] },
@@ -73,7 +56,23 @@ function App() {
       setUser(JSON.parse(saved));
       setIsLoggedIn(true);
     }
-  }, []);
+  }, []);useEffect(() => {
+  const q = query(
+    collection(db, "notices"),
+    orderBy("createdAt", "desc")
+  );
+
+  const unsubscribe = onSnapshot(q, (snapshot) => {
+    const noticeData = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    setNotices(noticeData);
+  });
+
+  return () => unsubscribe();
+}, []);
 
   const login = () => {
     const found = users.find(
